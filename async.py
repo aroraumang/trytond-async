@@ -7,6 +7,7 @@
     tryton developers are familiar with while making it possible to still
     customize behavior.
 """
+import logging
 from celery import current_app
 
 import wrapt
@@ -19,6 +20,9 @@ from trytond_async.mock_result import MockResult
 
 
 __metaclass__ = PoolMeta
+
+
+logger = logging.getLogger('ASYNC')
 
 
 class task(object):
@@ -89,7 +93,9 @@ class Async(ModelView):
             payload['kwargs'],
         )
         if instance:
+            logger.info('%s.%s' % (instance, method))
             return getattr(instance, method)(*args, **kwargs)
+        logger.info('%s.%s' % (model, method))
         return getattr(Pool().get(model), method)(*args, **kwargs)
 
     @classmethod
