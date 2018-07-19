@@ -39,6 +39,8 @@ app = Celery(
     include=['trytond_async.tasks']
 )
 
+CELERY_TEST_MODE = True if os.environ.get("DISABLE_ASYNC") else False
+
 app.conf.update(
     CELERY_TASK_RESULT_EXPIRES=os.environ.get(
         'CELERY_TASK_RESULT_EXPIRES', 3600),
@@ -48,7 +50,8 @@ app.conf.update(
         'application/x-tryson',
         'application/x-python-serialize'
     ],
-    TEST_MODE=True if os.environ.get("DISABLE_ASYNC") else False
+    TEST_MODE=CELERY_TEST_MODE,
+    CELERY_ALWAYS_EAGER=CELERY_TEST_MODE
 )
 
 if __name__ == '__main__':
