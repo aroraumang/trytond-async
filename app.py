@@ -9,7 +9,6 @@
     see the celery documentation at:
     http://docs.celeryproject.org/en/latest/getting-started/next-steps.html#about-the-app-argument
 """
-from __future__ import absolute_import
 
 import os
 

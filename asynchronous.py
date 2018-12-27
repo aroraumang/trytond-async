@@ -112,12 +112,12 @@ class Async(ModelView):
         :param args: positional arguments passed on to method as list/tuple.
         :param kwargs: keyword arguments passed on to method as dict.
         """
-        if isinstance(method, basestring):
+        if isinstance(method, str):
             method_name = method
         else:
             method_name = method.__name__
 
-        if isinstance(model, basestring):
+        if isinstance(model, str):
             model_name = model
         elif model:
             model_name = model.__name__

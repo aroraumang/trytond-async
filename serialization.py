@@ -30,6 +30,7 @@ class JSONDecoder(object):
             return self.decoders[dct['__class__']](dct)
         return dct
 
+
 JSONDecoder.register(
     'datetime',
     lambda dct: datetime.datetime(
@@ -56,6 +57,8 @@ JSONDecoder.register(
 def _bytes_decoder(dct):
     cast = bytearray if bytes == str else bytes
     return cast(base64.decodestring(dct['base64'].encode('utf-8')))
+
+
 JSONDecoder.register('bytes', _bytes_decoder)
 JSONDecoder.register(
     'Decimal', lambda dct: Decimal(dct['decimal'])
@@ -159,4 +162,6 @@ def register_serializer():
         content_type='application/x-tryson',
         content_encoding='binary',
     )
+
+
 register_serializer()

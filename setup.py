@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 import os
 import sys
 import time
 import unittest
-import ConfigParser
+from configparser import ConfigParser
 from setuptools import setup, Command
 
 
@@ -41,7 +41,7 @@ class PostgresTest(Command):
         sys.exit(-1)
 
 
-config = ConfigParser.ConfigParser()
+config = ConfigParser()
 config.readfp(open('tryton.cfg'))
 info = dict(config.items('tryton'))
 for key in ('depends', 'extras_depend', 'xml'):

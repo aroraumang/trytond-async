@@ -10,7 +10,6 @@
     be followed. Read more about the design on the getting started
     documentation of this module.
 """
-from __future__ import absolute_import
 
 from trytond import backend
 from trytond.transaction import Transaction
@@ -60,19 +59,19 @@ def _execute(app, database, user, payload_json):
         try:
             with Transaction().set_context(payload['context']):
                 results = Async.execute_payload(payload)
-        except RetryWithDelay, exc:
+        except RetryWithDelay as exc:
             # A special error that would be raised by Tryton models to
             # retry the task after a certain delay. Useful when the task
             # got triggered before the record is ready and similar cases.
             transaction.connection.rollback()
             raise app.retry(exc=exc, countdown=exc.delay)
-        except DatabaseOperationalError, exc:
+        except DatabaseOperationalError as exc:
             # Strict transaction handling may cause this.
             # Rollback and Retry the whole transaction if within
             # max retries, or raise exception and quit.
             transaction.connection.rollback()
             raise app.retry(exc=exc)
-        except Exception, exc:
+        except Exception:
             transaction.connection.rollback()
             raise
         else:
