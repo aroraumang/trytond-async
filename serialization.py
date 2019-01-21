@@ -14,7 +14,6 @@ except ImportError:
 import base64
 from trytond.model import Model
 from trytond.pool import Pool
-from trytond.tools import safe_eval
 
 
 class JSONDecoder(object):
@@ -56,7 +55,7 @@ JSONDecoder.register(
     'Decimal', lambda dct: Decimal(dct['decimal'])
 )
 JSONDecoder.register(
-    'Model', lambda dct: safe_eval(dct['repr'], {'Pool': Pool})
+    'Model', lambda dct: eval(dct['repr'], {'Pool': Pool})
 )
 
 
